@@ -13,7 +13,6 @@ class Concert(db.Model):
     #TODO sinking suspicion this won't work lol
     date = db.Column(db.DateTime(timezone=True))
     concert_artist = db.Column(db.String(100), db.ForeignKey('artist.artist_id'))
-
     addtional_performers = db.String(db.String(500))
     concert_website_link = db.String(db.String(200))
 
@@ -26,8 +25,12 @@ class Artist(db.Model):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     spotify_user_id = db.Column(db.String(10000),unique=True)
-    phone_number = db.Column(db.Integer)
-    email = db.Column(db.String(50))
+    #TODO user = User.query.filter_by(spotify_user_id=signed_in_user['id']).first()  no such col user.longitude
+    longitude = db.Column(db.Integer, default=None)
+    latitude = db.Column(db.Integer,default=None)
+    location_name = db.Column(db.String(200),default=None)
+    phone_number = db.Column(db.Integer,default=None)
+    email = db.Column(db.String(50),default=None)
     artist = db.relationship('Artist')
     Albums = db.relationship('Albums')
 
@@ -43,6 +46,7 @@ class Albums(db.Model):
     spotify_user_id = db.Column(db.String(10000), db.ForeignKey('user.spotify_user_id'),primary_key=True)
     popularity = db.Column(db.Integer)
 
+#TODO prob delete
 class Location(db.Model):
     spotify_user_id = db.Column(db.String(10000), db.ForeignKey('user.spotify_user_id'),primary_key=True)
     location_name = db.Column(db.String(200),primary_key=True)

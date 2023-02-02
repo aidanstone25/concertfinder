@@ -7,6 +7,7 @@ import pandas as pd
 from flask_login import login_user, logout_user,current_user
 from . import db
 from . models import User,Artist
+import ticketpy
 
 
 
@@ -104,11 +105,46 @@ def get_all_tracks():
     if request.method == 'POST':
         number_artists= 50
         #TODO , time_range=timeframe
+        #default 6 months
         top_artists = sp.current_user_top_artists()
-        #followed_artists = sp.current_user_followed_artists()
-        return top_artists
-    return render_template('home.html',user=current_user)        
+        followed_artists = sp.current_user_followed_artists()
+        signed_in_user= sp.current_user()
+        user_id = signed_in_user['id']
+        for artist in top_artists['items']:
+            artist_id = artist['id']
+            artist_name = artist['name']
 
+            queried_artist = Artist.query.filter_by(user_id=signed_in_user['id'],artist_id=artist_id).first()
+            if queried_artist:
+                pass
+            else:
+                new_artist = Artist(artist_id=artist_id,artist=artist_name,user_id=user_id)
+                db.session.add(new_artist)
+        for artist in followed_artists['items']:
+            artist_id = artist['id']
+            artist_name = artist['name']
+            queried_artist = Artist.query.filter_by(user_id=signed_in_user['id'],artist_id=artist_id).first()
+            if queried_artist:
+                pass
+            else:
+                new_artist = Artist(artist_id=artist_id,artist=artist_name,user_id=user_id)
+                db.session.add(new_artist)
+        db.session.commit()
+    return render_template('home.html',user=current_user)    
+#TODO https://developers.google.com/maps/documentation/javascript/examples/places-searchbox#maps_places_searchbox-javascript
+#https://stackoverflow.com/questions/18181458/auto-delete-a-record-in-table-when-date-is-expired
+def find_all_concerts():
+    tm_client = ticketpy.ApiClient(apikey)
+    artists = get_top_X()
+    concert_list=[]
+    for artist in artists:
+        concert_list.append({artist:[]})
+        #TODO user can input state
+        #latlong and radius variables
+        venues = tm_client.events.find(keyword=artist,classification_name='Music',state_code='IL, OH').one()
+        for venue in venues:
+            print(venue)
+    
     
 #Checks to see if token is valid and gets a new token if not
 def get_token():
@@ -135,4 +171,6 @@ def create_spotify_oauth():
             client_id='4e3d2cc9dfe2450890181834312c968d',
             client_secret='973e2a8c81b24a49891e69de31f143b4',
             redirect_uri="http://127.0.0.1:5000/authorize",
-            scope="user-top-read")
+            scope="user-top-read user-library-read")
+apikey = 'bH98AS06cMd23p9lqXUHk8cXI8M2ir6M' 
+secret = 'KjUOGWGTI9Gbjh1a'
