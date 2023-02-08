@@ -2,42 +2,57 @@
 {% block content%}
 
 <form method="POST">
-    <textarea name="new_album" id="new_album" class="form-control" placeholder="Enter album"></textarea>
-    <input pattern="[1-9]|10" type="number" name="Rating" id="Rating" placeholder="Rating">
     <br />
     <div align="center">
       <button type="submit" class="btn btn-primary">Add Album</button>
     </div>
+
+    <div class="form-group">
+      <label for="number_artists">number_artists</label>
+      <input
+        type="number_artists"
+        class="form-control"
+        id="number_artists"
+        name="number_artists"
+        placeholder="Enter number of artists"
+      />
+    </div>
+
+    <div>
+      <label for="longitude">longitude</label>
+      <input
+        type="longitude"
+        class="form-control"
+        id="longitude"
+        name="longitude"
+        placeholder="Enter longitude"
+      />
+    </div>
+
+    <div>
+      <label for="latitude">latitude</label>
+      <input
+        type="latitude"
+        class="form-control"
+        id="latitude"
+        name="latitude"
+        placeholder="Enter latitude"
+      />
+    </div>
+
+    <div>
+      <label for="radius">radius</label>
+      <input
+        type="radius"
+        class="form-control"
+        id="radius"
+        name="radius"
+        placeholder="Enter radius"
+      />
+    </div>
   </form>
 
-
-  <html>
-  <head>
-    <title>Places Search Box</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script type="module" src="./index.js"></script>
-  </head>
-  <body>
-    <input
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-    />
-    <div id="map"></div>
-
-    <!-- 
-      The `defer` attribute causes the callback to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises
-      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
-      -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initAutocomplete&libraries=places&v=weekly"
-      defer
-    ></script>
-  </body>
-</html>
+<div></div>
+<div></div>
+  
 {%endblock%}

@@ -12,6 +12,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'pulsic rahhhhhh'
     app.config['SESSION_COOKIE_NAME'] = 'spotify-login-session'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config["CACHE_TYPE"] = "null"
     db.init_app(app)
 
     from .auth import auth

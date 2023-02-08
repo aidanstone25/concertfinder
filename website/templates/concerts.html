@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Concerts{% endblock %}
+{%block content%}
+
+<ul>
+    {%for concert in user.concerts%}
+    <div>
+        {{concert.concert_name}}
+        {{concert.date}}
+    </div>
+    <div>
+        {{concert.dist}} away
+        {{concert.city}}
+        {{concert.venue}}
+    </div>
+    <div>
+        {{concert.max_price}}
+        {{concert.min_price}}
+    </div>
+    <br>
+    {%endfor%}
+</ul>
+{%endblock%}
